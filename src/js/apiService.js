@@ -1,12 +1,30 @@
 const apiKey = '18681025-f668a3aca189dfba87ba57015';
 
-function fetchphotoCards(searchWord, searchPage) {
-  return fetch(
-    `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${searchWord}&page=${searchPage}&per_page=12&key=${apiKey}`,
-  )
-    .then(responce => responce.json())
-    .then(data=>data.hits)
-    .catch(error => console.log(error));
-}
+export default {
+  searchWord: ' ',
+  searchPage: 1,
 
-export default fetchphotoCards;
+  fetchphotoCards() {
+    return fetch(
+      `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchWord}&page=${this.searchPage}&per_page=12&key=${apiKey}`,
+    )
+      .then(responce => responce.json())
+      .then(data => {
+        this.searchPage += 1;
+        return data.hits;
+      })
+      .catch(error => console.log(error));
+  },
+
+  resetPage() {
+    this.searchPage = 1;
+  },
+
+  get word(){
+    return this.searchWord;
+  },
+
+  set word(newWord){
+    this.searchWord = newWord;
+  }
+};

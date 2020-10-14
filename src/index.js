@@ -1,24 +1,44 @@
+import * as basicLightbox from 'basiclightbox';
 import refs from './js/refs.js';
 import photoCardTemplate from './templates/photo-card-template.hbs';
-import fetchphotoCards from './js/apiService';
+import apiService from './js/apiService';
 import './styles.css';
-
-let searchWord = ' ';
-let searchPage = 1;
 
 refs.searchForm.addEventListener('submit', event => {
   event.preventDefault();
 
   const input = event.currentTarget;
-  searchWord = input.elements.query.value;
+  apiService.word = input.elements.query.value;
 
   refs.photoCardsContainer.innerHTML = ' ';
   input.reset();
 
-  searchPage = 1;
-  fetchphotoCards(searchWord, searchPage).then(hits => {
+  apiService.resetPage();
+
+  apiService.fetchphotoCards().then(hits => {
     updatePhotoCard(hits);
-    searchPage += 1;
+
+    hits.forEach(card => {
+      // Пытаюсь сделать открытие модального окна с большим изображением (largeImageURL) используя basicLightbox.
+
+      console.log(card.largeImageURL);
+      // Пример из документации basicLightbox (при нажатии на кнопку открывается модальное окно):
+      // document.querySelector('button.image').onclick = () => {
+      // 	basicLightbox.create(`
+      //   <img width="1400" height="900" src="https://placehold.it/1400x900">
+      // `).show()
+      // }
+
+      // У меня при клике на картинку модальное окно не открывается((
+      card.onclick = () => {
+        const instance = basicLightbox
+          .create(
+            // в src ссылка на большое изображение largeImageURL
+            `<img src="${card.largeImageURL}" width="800" height="600">`,
+          )
+          .show();
+      };
+    });
   });
 });
 
@@ -28,8 +48,7 @@ function updatePhotoCard(hits) {
 }
 
 refs.loadMoreBtn.addEventListener('click', () => {
-  fetchphotoCards(searchWord, searchPage).then(hits => {
+  apiService.fetchphotoCards().then(hits => {
     updatePhotoCard(hits);
-    searchPage += 1;
   });
 });
