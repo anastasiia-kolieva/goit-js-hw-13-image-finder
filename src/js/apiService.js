@@ -20,11 +20,11 @@ export default {
     this.searchPage = 1;
   },
 
-  get word(){
+  get word() {
     return this.searchWord;
   },
 
-  set word(newWord){
+  set word(newWord) {
     this.searchWord = newWord;
-  }
+  },
 };
