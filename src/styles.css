@@ -55,3 +55,7 @@ body {
   border-radius: 10%;
   background-color: rgb(173, 236, 144);
 }
+
+.load-more__display-none{
+  display: none;
+}

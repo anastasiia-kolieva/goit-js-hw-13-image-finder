@@ -13,7 +13,9 @@ export default {
         this.searchPage += 1;
         return data.hits;
       })
-      .catch(error => console.log(error));
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   resetPage() {
