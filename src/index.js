@@ -52,26 +52,16 @@ refs.searchForm.addEventListener('submit', event => {
       behavior: 'smooth',
     });
 
-    hits.forEach(card => {
-      // Пытаюсь сделать открытие модального окна с большим изображением (largeImageURL) используя basicLightbox.
-      console.log(card.largeImageURL);
-      // Пример из документации basicLightbox (при нажатии на кнопку открывается модальное окно):
-      // document.querySelector('button.image').onclick = () => {
-      // 	basicLightbox.create(`
-      //   <img width="1400" height="900" src="https://placehold.it/1400x900">
-      // `).show()
-      // }
-      const photoCardImg = document.querySelector('.photo-card-image');
-      // У меня при клике на картинку модальное окно не открывается((
-      photoCardImg.onclick = () => {
+    const createModal = hits.forEach(card => {
+      refs.photoCardsContainer.addEventListener('click', () => {
         basicLightbox
-          .create(
-            // в src ссылка на большое изображение largeImageURL
-            `<img src="${card.largeImageURL}" width="800" height="600">`,
-          )
-          .show();
-      };
+          .create(`<img src="${card.largeImageURL}" width="800" height="600">`);
+      });
     });
+
+    if (event.target.tagName === 'IMG') {
+      createModal().show();;
+    }
   });
 });
 
