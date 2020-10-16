@@ -52,16 +52,31 @@ refs.searchForm.addEventListener('submit', event => {
       behavior: 'smooth',
     });
 
-    const createModal = hits.forEach(card => {
+    // сделала цикл перебора массиваю во время перебора навешиваю обработчик и если кликнули должна открыться модалка
+    for (const card of hits) {
       refs.photoCardsContainer.addEventListener('click', () => {
-        basicLightbox
-          .create(`<img src="${card.largeImageURL}" width="800" height="600">`);
+        const instance = basicLightbox.create(
+          `<img src="${card.largeImageURL}" width="800" height="600">`,
+        );
+        if (event.target.tagName === 'IMG') {
+          instance.show();
+        }
       });
-    });
-
-    if (event.target.tagName === 'IMG') {
-      createModal().show();;
     }
+
+
+    // Ещё вариант с forEach
+    // const createModal = hits.forEach(card => {
+    //   // refs.photoCardsContainer.addEventListener('click', () => {
+    //   //   // basicLightbox.create(
+    //   //   //   `<img src="${card.largeImageURL}" width="800" height="600">`,
+    //   //   // );
+    //   // });
+    // });
+
+    // if (event.target.tagName === 'IMG') {
+    //   createModal().show();
+    // }
   });
 });
 
