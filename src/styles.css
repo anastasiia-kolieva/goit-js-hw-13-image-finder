@@ -14,66 +14,17 @@ body {
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
-.lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms linear;
-}
-
-.lightbox.is-open {
-  opacity: 1;
-  pointer-events: initial;
-}
-
-.lightbox__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.lightbox__content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.9);
-  transition: transform 200ms ease-in-out;
-}
-
-.lightbox__image {
-  width: auto;
-  height: auto;
-  max-height: 100vh;
-  max-width: 100vw;
-}
-
-.lightbox.is-open .lightbox__content {
-  transform: scale(1);
-}
-
-.gallery{
+.gallery {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
 }
 
-.search-form{
+.search-form {
   margin-bottom: 50px;
 }
 
-.search-input{
+.search-input {
   height: 40px;
   width: 200px;
   display: block;
@@ -82,21 +33,21 @@ body {
   font-size: 20px;
 }
 
-.search-input::placeholder{
+.search-input::placeholder {
   padding-left: 10px;
   font-size: 16px;
 }
 
-.gallery-item{
+.gallery-item {
   justify-content: space-between;
   margin: 0 auto 40px;
 }
 
-.btn-container{
+.btn-container {
   text-align: center;
 }
 
-.load-more-btn{
+.load-more-btn {
   height: 40px;
   width: 100px;
   margin: 0 auto 50px;
@@ -105,6 +56,64 @@ body {
   background-color: rgb(173, 236, 144);
 }
 
-.load-more__display-none{
+.load-more__display-none {
   display: none;
+}
+
+.basicLightbox {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  opacity: 0.01;
+  transition: opacity 0.4s ease;
+  z-index: 1000;
+  will-change: opacity;
+}
+.basicLightbox--visible {
+  opacity: 1;
+}
+.basicLightbox__placeholder {
+  max-width: 100%;
+  transform: scale(0.9);
+  transition: transform 0.4s ease;
+  z-index: 1;
+  will-change: transform;
+}
+.basicLightbox__placeholder > iframe:first-child:last-child,
+.basicLightbox__placeholder > img:first-child:last-child,
+.basicLightbox__placeholder > video:first-child:last-child {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  max-width: 95%;
+  max-height: 95%;
+}
+.basicLightbox__placeholder > iframe:first-child:last-child,
+.basicLightbox__placeholder > video:first-child:last-child {
+  pointer-events: auto;
+}
+.basicLightbox__placeholder > img:first-child:last-child,
+.basicLightbox__placeholder > video:first-child:last-child {
+  width: auto;
+  height: auto;
+}
+.basicLightbox--iframe .basicLightbox__placeholder,
+.basicLightbox--img .basicLightbox__placeholder,
+.basicLightbox--video .basicLightbox__placeholder {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.basicLightbox--visible .basicLightbox__placeholder {
+  transform: scale(1);
 }

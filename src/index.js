@@ -55,7 +55,7 @@ refs.searchForm.addEventListener('submit', event => {
     refs.photoCardsContainer.addEventListener('click', event => {
       if (event.target.nodeName === 'IMG') {
         const modal = basicLightbox.create(
-          `<img src="${event.target.dataset.set}" class = "lightbox__image" width="800" height="600">`,
+          `<img src="${event.target.dataset.set}" width="800" height="600">`,
         );
         modal.show();
       }
