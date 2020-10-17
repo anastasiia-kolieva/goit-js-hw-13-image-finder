@@ -52,31 +52,14 @@ refs.searchForm.addEventListener('submit', event => {
       behavior: 'smooth',
     });
 
-    // сделала цикл перебора массиваю во время перебора навешиваю обработчик и если кликнули должна открыться модалка
-    for (const card of hits) {
-      refs.photoCardsContainer.addEventListener('click', () => {
-        const instance = basicLightbox.create(
-          `<img src="${card.largeImageURL}" width="800" height="600">`,
+    refs.photoCardsContainer.addEventListener('click', event => {
+      if (event.target.nodeName === 'IMG') {
+        const modal = basicLightbox.create(
+          `<img src="${event.target.dataset.set}" class = "lightbox__image" width="800" height="600">`,
         );
-        if (event.target.tagName === 'IMG') {
-          instance.show();
-        }
-      });
-    }
-
-
-    // Ещё вариант с forEach
-    // const createModal = hits.forEach(card => {
-    //   // refs.photoCardsContainer.addEventListener('click', () => {
-    //   //   // basicLightbox.create(
-    //   //   //   `<img src="${card.largeImageURL}" width="800" height="600">`,
-    //   //   // );
-    //   // });
-    // });
-
-    // if (event.target.tagName === 'IMG') {
-    //   createModal().show();
-    // }
+        modal.show();
+      }
+    });
   });
 });
 
