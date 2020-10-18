@@ -7,6 +7,8 @@ import photoCardTemplate from './templates/photo-card-template.hbs';
 import apiService from './js/apiService';
 import './styles.css';
 
+refs.loadMoreBtn.classList.replace('load-more-btn', 'load-more__display-none');
+
 refs.searchForm.addEventListener('submit', event => {
   event.preventDefault();
 
@@ -18,49 +20,51 @@ refs.searchForm.addEventListener('submit', event => {
 
   apiService.resetPage();
 
-  if (apiService.word === ' ') {
+  if (apiService.word.length === 0) {
     alert({
       text: 'photo name not entered for search',
       type: 'info',
     });
-    refs.loadMoreBtn.classList.add('load-more__display-none');
     return;
   } else {
-    refs.loadMoreBtn.classList.replace(
-      'load-more__display-none',
-      'load-more-btn',
-    );
-  }
-
-  apiService.fetchphotoCards().then(hits => {
-    if (hits.length === 0) {
-      error({
-        text: 'There is no photo with this name.',
-      });
-      refs.loadMoreBtn.classList.add('load-more__display-none');
-    } else {
-      updatePhotoCard(hits);
-
+    // чтоб кнопка LoadMore не загружалась раньше чем придут данные
+    setTimeout(() => {
       refs.loadMoreBtn.classList.replace(
         'load-more__display-none',
         'load-more-btn',
       );
-    }
+    }, 5000);
 
-    window.scrollTo({
-      top: document.documentElement.offsetHeight,
-      behavior: 'smooth',
-    });
+    apiService.fetchphotoCards().then(hits => {
+      if (hits.length === 0) {
+        error({
+          text: 'There is no photo with this name.',
+        });
+        refs.loadMoreBtn.classList.add('load-more__display-none');
+      } else {
+        updatePhotoCard(hits);
 
-    refs.photoCardsContainer.addEventListener('click', event => {
-      if (event.target.nodeName === 'IMG') {
-        const modal = basicLightbox.create(
-          `<img src="${event.target.dataset.set}" width="800" height="600">`,
+        refs.loadMoreBtn.classList.replace(
+          'load-more__display-none',
+          'load-more-btn',
         );
-        modal.show();
       }
+
+      window.scrollTo({
+        top: document.documentElement.offsetHeight,
+        behavior: 'smooth',
+      });
+
+      refs.photoCardsContainer.addEventListener('click', event => {
+        if (event.target.nodeName === 'IMG') {
+          const modal = basicLightbox.create(
+            `<img src="${event.target.dataset.set}" width="800" height="600">`,
+          );
+          modal.show();
+        }
+      });
     });
-  });
+  }
 });
 
 function updatePhotoCard(hits) {
